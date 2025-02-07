@@ -52,36 +52,13 @@ func main() {
 	rows := 103
 	cols := 101
 
-	var quadrants [4]int
 	for _, robot := range robotList {
-		newX := mod(robot.pos.x+(robot.vel.x*100), cols)
-		newY := mod(robot.pos.y+(robot.vel.y*100), rows)
-
-		rowMiddle := rows / 2
-		colMiddle := cols / 2
-
-		if newX > colMiddle && newY > rowMiddle {
-			quadrants[0]++
-		} else if newX > colMiddle && newY < rowMiddle {
-			quadrants[1]++
-		} else if newX < colMiddle && newY > rowMiddle {
-			quadrants[2]++
-		} else if newX < colMiddle && newY < rowMiddle {
-			quadrants[3]++
-		}
+		newX := robot.pos.x + ((robot.vel.x * 100) % rows)
+		newY := robot.pos.y + ((robot.vel.y * 100) % cols)
+		fmt.Println(newX, newY)
 	}
-
-	result := 1
-	for _, num := range quadrants {
-		result *= num
-	}
-	fmt.Println(result)
 
 	if err := scanner.Err(); err != nil {
 		fmt.Printf("Error reading the file")
 	}
-}
-
-func mod(a, b int) int {
-	return (a%b + b) % b
 }
